@@ -17,6 +17,10 @@
   margin-top: 0.625rem;
 }
 
+div[style*="grid"] > .card {
+  margin-top: 0;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

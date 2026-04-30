@@ -24,7 +24,17 @@ function renderHome(container) {
       renderStats(me, goal, streaks, commissions);
       renderNextCall();
     })
-    .catch(() => Toast.show('Failed to load stats', 'error'));
+    .catch(() => {
+      setTimeout(() => {
+        Promise.all([API.getMe(), API.getTodayGoal(), API.getMyStreaks(), API.getMyCommissions(), API.getCurrentLeads()])
+          .then(([me, goal, streaks, commissions, leadsData]) => {
+            leads = leadsData || [];
+            renderStats(me, goal, streaks, commissions);
+            renderNextCall();
+          })
+          .catch(() => {});
+      }, 3000);
+    });
 
   function showSkeletons() {
     document.getElementById('home-stats').innerHTML = `
