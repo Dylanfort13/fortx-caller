@@ -168,8 +168,9 @@ function renderHome(container) {
     function expandSection(section) {
       section.style.display = 'block';
       requestAnimationFrame(() => {
-        section.style.maxHeight = '400px';
+        section.style.maxHeight = '600px';
         section.style.opacity = '1';
+        section.style.overflow = 'visible';
       });
     }
 
@@ -190,7 +191,21 @@ function renderHome(container) {
     el.querySelector('#demo-agreed-btn').addEventListener('click', () => {
       collapseSection(outcomeSection);
       setTimeout(() => expandSection(demoExpand), 300);
-      setTimeout(() => el.querySelector('#home-demo-email').focus(), 600);
+      setTimeout(() => {
+        const emailInput = el.querySelector('#home-demo-email');
+        emailInput.focus();
+        setTimeout(() => {
+          emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }, 600);
+    });
+
+    el.querySelectorAll('#demo-expand .input-field').forEach(field => {
+      field.addEventListener('focus', () => {
+        setTimeout(() => {
+          field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      });
     });
 
     el.querySelector('#home-demo-submit').addEventListener('click', () => handleDemoSubmit(lead));
