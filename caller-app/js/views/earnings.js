@@ -40,16 +40,16 @@ function renderEarnings(container) {
 
     const el = document.getElementById('earnings-content');
     el.innerHTML = `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-        <div class="card anim-slide-up" style="border-top:3px solid var(--green);display:flex;flex-direction:column;justify-content:space-between;min-height:88px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;align-items:stretch">
+        <div class="card anim-slide-up" style="border-top:3px solid var(--green)">
           <div style="font-size:var(--text-xs);color:var(--text-sub);margin-bottom:0.5rem">Daily Potential</div>
-          <div style="font-size:var(--text-xl);font-weight:700;color:(--green)">$${potentialTotal.toLocaleString()}</div>
-          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:auto">CAD</div>
+          <div style="font-size:var(--text-xl);font-weight:700;color:var(--green)">$${potentialTotal.toLocaleString()}</div>
+          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:auto;padding-top:0.25rem">CAD</div>
         </div>
-        <div class="card anim-slide-up" style="animation-delay:0.05s;border-top:3px solid var(--yellow);display:flex;flex-direction:column;justify-content:space-between;min-height:88px">
+        <div class="card anim-slide-up" style="animation-delay:0.05s;border-top:3px solid var(--yellow)">
           <div style="font-size:var(--text-xs);color:var(--text-sub);margin-bottom:0.5rem">Upcoming Payout</div>
           <div style="font-size:var(--text-xl);font-weight:700;color:var(--yellow)">$${pendingTotal.toLocaleString()}</div>
-          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:auto">CAD</div>
+          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:auto;padding-top:0.25rem">CAD</div>
         </div>
       </div>
 
@@ -130,7 +130,7 @@ function renderEarnings(container) {
 
   function renderCommissionList(items) {
     return items.map((c, i) => `
-      <div class="card anim-slide-up" style="animation-delay:${0.2 + i * 0.03}s;display:flex;justify-content:space-between;align-items:center;padding:0.875rem">
+      <div class="card anim-slide-up" style="animation-delay:${0.2 + i * 0.03}s;flex-direction:row;justify-content:space-between;align-items:center;padding:0.875rem">
         <div style="min-width:0;flex:1">
           <div style="font-size:var(--text-sm);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.business_name || 'Unknown'}</div>
           <div style="font-size:var(--text-xs);color:var(--text-sub)">${c.city || ''} · ${new Date(c.created_at).toLocaleDateString()}</div>

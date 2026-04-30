@@ -4,6 +4,8 @@
   box-shadow: var(--shadow-card);
   padding: 1.25rem;
   transition: box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:active {
