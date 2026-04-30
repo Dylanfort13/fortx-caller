@@ -62,7 +62,7 @@ function showDemoModal(lead, onSubmit) {
 }
 
 function launchConfetti() {
-  const colors = ['#E8650A', '#16A34A', '#D97706', '#1A1A1A', '#F9F9F9'];
+  const colors = ['#2563EB', '#16A34A', '#D97706', '#1A1A1A', '#F9F9F9'];
   for (let i = 0; i < 30; i++) {
     const piece = document.createElement('div');
     piece.className = 'confetti-piece';

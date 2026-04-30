@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import datetime, timedelta, date
 from typing import Optional
 
@@ -271,6 +272,18 @@ def demo_agreed(req: DemoAgreedRequest, request: Request):
 
         conn.commit()
 
+        try:
+            enqueue_action("demo_agreed", {
+                "caller_id": caller_id,
+                "lead_id": req.lead_id,
+                "prospect_email": req.prospect_email,
+                "prospect_name": req.prospect_name,
+                "business_name": None,
+                "notes": req.notes,
+            })
+        except Exception:
+            pass
+
         return {
             "status": "ok",
             "message": "Pipeline started",
@@ -336,6 +349,15 @@ def request_more_leads(request: Request):
         )
 
         conn.commit()
+
+        try:
+            enqueue_action("request_more_leads", {
+                "caller_id": caller_id,
+                "count": len(leads),
+            })
+        except Exception:
+            pass
+
         return {"status": "ok", "message": f"Assigned {len(leads)} new leads", "count": len(leads)}
     except Exception:
         conn.rollback()
@@ -484,6 +506,58 @@ def get_my_commissions(request: Request):
             "pending_payout": [dict(r) for r in pending],
             "paid": [dict(r) for r in paid],
         }
+    finally:
+        conn.close()
+
+
+def enqueue_action(action_type: str, payload: dict):
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO action_queue (action_type, payload) VALUES (%s, %s)",
+            (action_type, json.dumps(payload)),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+@app.get("/queue/pending")
+def get_pending_actions(request: Request):
+    require_admin(request)
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT * FROM action_queue WHERE status = 'pending' ORDER BY created_at"
+        )
+        return cur.fetchall()
+    finally:
+        conn.close()
+
+
+@app.post("/queue/{action_id}/complete")
+def complete_action(action_id: int, request: Request):
+    require_admin(request)
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            "UPDATE action_queue SET status = 'completed', processed_at = NOW() WHERE id = %s RETURNING *",
+            (action_id,),
+        )
+        result = cur.fetchone()
+        if not result:
+            raise HTTPException(status_code=404, detail="Action not found")
+        conn.commit()
+        return dict(result)
+    except HTTPException:
+        conn.rollback()
+        raise
+    except Exception:
+        conn.rollback()
+        raise
     finally:
         conn.close()
 

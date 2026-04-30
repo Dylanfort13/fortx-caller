@@ -98,3 +98,13 @@ button { cursor: pointer; -webkit-user-select: none; user-select: none; }
   clip: rect(0,0,0,0);
   white-space: nowrap;
 }
+
+.stat-box {
+  padding: 1rem;
+}
+
+.script-line {
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--text-primary);
+}

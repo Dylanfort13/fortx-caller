@@ -33,7 +33,7 @@ function renderLeads(container) {
       countEl.textContent = 'No leads assigned';
       el.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">📋</div>
+          <div class="empty-state-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-sub)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
           <div class="empty-state-text">No leads yet. Request a batch from the Home tab.</div>
         </div>
       `;
@@ -89,7 +89,7 @@ function renderLeads(container) {
       lead.status = 'demo_agreed';
       renderList();
       launchConfetti();
-      Toast.show('Pipeline started! Kiter is on it 🤖', 'success');
+      Toast.show('Pipeline started! FortX Web team is on it.', 'success');
     } catch {
       Toast.show('Failed to start pipeline', 'error');
     }
