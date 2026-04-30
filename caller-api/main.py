@@ -6,7 +6,7 @@ import bcrypt
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from jose import jwt, JWTError
@@ -50,11 +50,6 @@ def decode_token(token: str) -> dict:
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
-async def get_current_user(token: str = Depends(lambda: None)):
-    from fastapi import Request
-    return {}
-
-
 @app.middleware("http")
 async def auth_middleware(request, call_next):
     if request.method == "OPTIONS":
@@ -78,7 +73,7 @@ async def auth_middleware(request, call_next):
     return await call_next(request)
 
 
-def require_admin(request):
+def require_admin(request: Request):
     user = request.state.user
     if user.get("role") != "admin":
         raise HTTPException(status_code=403, detail="Admin only")
@@ -144,7 +139,7 @@ def login(req: LoginRequest):
 
 
 @app.get("/me")
-def get_me(request):
+def get_me(request: Request):
     user = request.state.user
     caller_id = int(user["sub"])
     conn = get_conn()
@@ -183,7 +178,7 @@ def get_me(request):
 
 
 @app.get("/leads/current")
-def get_current_leads(request):
+def get_current_leads(request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -200,7 +195,7 @@ def get_current_leads(request):
 
 
 @app.post("/calls/log")
-def log_call(req: LogCallRequest, request):
+def log_call(req: LogCallRequest, request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -237,7 +232,7 @@ def log_call(req: LogCallRequest, request):
 
 
 @app.post("/calls/demo-agreed")
-def demo_agreed(req: DemoAgreedRequest, request):
+def demo_agreed(req: DemoAgreedRequest, request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -293,7 +288,7 @@ def demo_agreed(req: DemoAgreedRequest, request):
 
 
 @app.post("/leads/request-more")
-def request_more_leads(request):
+def request_more_leads(request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -350,7 +345,7 @@ def request_more_leads(request):
 
 
 @app.get("/stats/leaderboard")
-def get_leaderboard(request):
+def get_leaderboard(request: Request):
     conn = get_conn()
     try:
         cur = conn.cursor()
@@ -415,7 +410,7 @@ def get_leaderboard(request):
 
 
 @app.get("/stats/me/streaks")
-def get_my_streaks(request):
+def get_my_streaks(request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -427,7 +422,7 @@ def get_my_streaks(request):
 
 
 @app.post("/goals/set")
-def set_goal(req: SetGoalRequest, request):
+def set_goal(req: SetGoalRequest, request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -450,7 +445,7 @@ def set_goal(req: SetGoalRequest, request):
 
 
 @app.get("/goals/today")
-def get_today_goal(request):
+def get_today_goal(request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -465,7 +460,7 @@ def get_today_goal(request):
 
 
 @app.get("/commissions/me")
-def get_my_commissions(request):
+def get_my_commissions(request: Request):
     caller_id = int(request.state.user["sub"])
     conn = get_conn()
     try:
@@ -494,7 +489,7 @@ def get_my_commissions(request):
 
 
 @app.get("/admin/callers")
-def admin_get_callers(request):
+def admin_get_callers(request: Request):
     require_admin(request)
     conn = get_conn()
     try:
@@ -518,7 +513,7 @@ def admin_get_callers(request):
 
 
 @app.post("/admin/callers")
-def admin_add_caller(req: AddCallerRequest, request):
+def admin_add_caller(req: AddCallerRequest, request: Request):
     require_admin(request)
     if len(req.pin) != 4 or not req.pin.isdigit():
         raise HTTPException(status_code=400, detail="PIN must be 4 digits")
@@ -545,7 +540,7 @@ def admin_add_caller(req: AddCallerRequest, request):
 
 
 @app.patch("/admin/commissions/{commission_id}")
-def admin_patch_commission(commission_id: int, req: PatchCommissionRequest, request):
+def admin_patch_commission(commission_id: int, req: PatchCommissionRequest, request: Request):
     require_admin(request)
     conn = get_conn()
     try:
