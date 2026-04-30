@@ -557,6 +557,22 @@ YOUR PERSONALITY:
 
 @app.post("/chat")
 def chat_with_kitter(req: ChatRequest, request: Request):
+    caller_id = int(request.state.user["sub"])
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        for msg in req.messages:
+            if msg.get("role") == "user":
+                cur.execute(
+                    "INSERT INTO chat_messages (caller_id, role, content) VALUES (%s, %s, %s)",
+                    (caller_id, "user", msg["content"]),
+                )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+    finally:
+        conn.close()
+
     payload = json.dumps({
         "model": "moonshot-v1-8k",
         "messages": [{"role": "system", "content": KITTER_SYSTEM}] + req.messages,
@@ -578,6 +594,20 @@ def chat_with_kitter(req: ChatRequest, request: Request):
         with urllib.request.urlopen(moonshot_req, timeout=30) as resp:
             data = json.loads(resp.read().decode())
             content = data["choices"][0]["message"]["content"]
+
+            conn2 = get_conn()
+            try:
+                cur2 = conn2.cursor()
+                cur2.execute(
+                    "INSERT INTO chat_messages (caller_id, role, content) VALUES (%s, %s, %s)",
+                    (caller_id, "assistant", content),
+                )
+                conn2.commit()
+            except Exception:
+                conn2.rollback()
+            finally:
+                conn2.close()
+
             return {"reply": content}
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"AI service error: {str(e)}")
@@ -682,6 +712,38 @@ def admin_add_caller(req: AddCallerRequest, request: Request):
     except Exception:
         conn.rollback()
         raise
+    finally:
+        conn.close()
+
+
+@app.get("/admin/callers/{caller_id}/chat")
+def admin_get_chat(caller_id: int, request: Request):
+    require_admin(request)
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT id, role, content, created_at FROM chat_messages
+               WHERE caller_id = %s ORDER BY created_at ASC LIMIT 500""",
+            (caller_id,),
+        )
+        return {"messages": [dict(r) for r in cur.fetchall()]}
+    finally:
+        conn.close()
+
+
+@app.get("/admin/callers/{caller_id}/goals")
+def admin_get_goals(caller_id: int, request: Request):
+    require_admin(request)
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT * FROM daily_goals WHERE caller_id = %s
+               ORDER BY goal_date DESC LIMIT 30""",
+            (caller_id,),
+        )
+        return {"goals": [dict(r) for r in cur.fetchall()]}
     finally:
         conn.close()
 
