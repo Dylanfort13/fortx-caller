@@ -8,7 +8,9 @@ function renderLeaderboard(container) {
       <button class="btn btn-sm btn-secondary week-btn" data-week="last">Last week</button>
     </div>
     <div id="leaderboard-list" style="margin-top:1rem">
-      <div class="empty-state"><div class="empty-state-text">Loading...</div></div>
+      <div class="card"><div class="skeleton" style="height:56px"></div></div>
+      <div class="card"><div class="skeleton" style="height:56px"></div></div>
+      <div class="card"><div class="skeleton" style="height:56px"></div></div>
     </div>
   `;
 

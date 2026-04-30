@@ -5,9 +5,13 @@ function renderLeads(container) {
   container.innerHTML = `
     <div style="padding-top:1.5rem">
       <div class="page-title">Leads</div>
-      <div class="page-subtitle" id="leads-count">Loading...</div>
+      <div class="page-subtitle" id="leads-count"></div>
     </div>
-    <div id="leads-list" style="margin-top:1rem"></div>
+    <div id="leads-list" style="margin-top:1rem">
+      <div class="card"><div class="skeleton" style="height:60px"></div></div>
+      <div class="card"><div class="skeleton" style="height:60px"></div></div>
+      <div class="card"><div class="skeleton" style="height:60px"></div></div>
+    </div>
   `;
 
   loadLeads();

@@ -101,9 +101,21 @@ button { cursor: pointer; -webkit-user-select: none; user-select: none; }
 
 .stat-box {
   padding: 1rem;
-  min-height: 130px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease infinite;
+  border-radius: var(--radius-btn);
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .script-line {
