@@ -355,16 +355,16 @@
 
 .chat-input-bar {
   position: fixed;
-  bottom: 0;
+  bottom: 64px;
   left: 0;
   right: 0;
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0) + 0.75rem);
+  padding-bottom: 0.75rem;
   background: var(--surface);
   border-top: 1px solid var(--border);
-  z-index: 55;
+  z-index: 45;
 }
 
 .chat-input {

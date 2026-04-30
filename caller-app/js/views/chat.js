@@ -21,7 +21,7 @@ function renderChat(container) {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
-    <div id="quick-replies" style="position:fixed;bottom:68px;left:0;right:0;padding:0.5rem 1rem;display:none;gap:0.5rem;flex-wrap:wrap;justify-content:center;z-index:60"></div>
+    <div id="quick-replies" style="position:fixed;bottom:120px;left:0;right:0;padding:0.5rem 1rem;display:none;gap:0.5rem;flex-wrap:wrap;justify-content:center;z-index:45"></div>
   `;
 
   const messagesEl = document.getElementById('chat-messages');
