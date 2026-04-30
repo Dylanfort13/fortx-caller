@@ -61,7 +61,8 @@ function renderHome(container) {
             <span class="stat-label" style="margin:0">Streak</span>
           </div>
           <div class="stat-value">${streaks?.current_streak || 0} <span style="font-size:var(--text-sm);font-weight:500;color:var(--text-sub)">days</span></div>
-          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:0.5rem">Longest: ${streaks?.longest_streak || 0} days</div>
+          <div style="margin-top:0.5rem;height:6px"></div>
+          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:0.25rem">Longest: ${streaks?.longest_streak || 0} days</div>
         </div>
       </div>`;
 
@@ -103,7 +104,7 @@ function renderHome(container) {
           <span style="font-size:var(--text-sm);font-weight:600;color:var(--accent)">NEXT CALL</span>
           <span style="font-size:var(--text-xs);color:var(--text-sub);margin-left:auto">${remaining.length} remaining</span>
         </div>
-        <div style="font-size:var(--text-lg);font-weight:600">${lead.business_name}</div>
+        <div style="font-size:var(--text-lg);font-weight:600;display:flex;align-items:center;gap:0.35rem">${lead.business_name}${lead.is_test ? '<span class="pill" style="background:var(--purple-light);color:var(--purple);font-size:9px;font-weight:700;letter-spacing:0.3px;flex-shrink:0">TEST</span>' : ''}</div>
         <div style="font-size:var(--text-sm);color:var(--text-sub);margin-top:2px">${[lead.city, lead.state].filter(Boolean).join(', ')}</div>
         ${lead.category ? `<span class="pill" style="margin-top:6px;background:var(--accent-light);color:var(--accent)">${lead.category}</span>` : ''}
         <div style="margin-top:1rem">

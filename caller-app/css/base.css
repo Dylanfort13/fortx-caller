@@ -19,7 +19,9 @@
   --red:          #DC2626;
   --red-light:    #FEF2F2;
   --yellow:       #D97706;
-  --yellow-light: #FFFBEB;
+  --yellow-light:  #FFFBEB;
+  --purple:       #7C3AED;
+  --purple-light: #F5F3FF;
   --radius-card:  16px;
   --radius-btn:   12px;
   --shadow-card:  0 0.5px 1px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
