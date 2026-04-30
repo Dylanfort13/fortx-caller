@@ -112,26 +112,24 @@ function renderHome(container) {
             Call ${lead.phone}
           </a>
         </div>
-      </div>
-      <div id="outcome-section" style="margin-top:0.75rem;display:none">
-        <div style="font-size:var(--text-sm);font-weight:600;margin-bottom:0.5rem">What happened?</div>
-        <div style="display:flex;flex-direction:column;gap:0.5rem">
-          <button class="btn btn-full outcome-btn" style="background:var(--yellow-light);color:var(--yellow);font-weight:600" data-outcome="no_answer">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            No Answer
-          </button>
-          <button class="btn btn-full outcome-btn" style="background:var(--red-light);color:var(--red);font-weight:600" data-outcome="not_interested">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            Not Interested
-          </button>
-          <button class="btn btn-full outcome-btn" style="background:var(--green-light);color:var(--green);font-weight:600" data-outcome="demo_agreed" id="demo-agreed-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Demo Agreed!
-          </button>
+        <div id="outcome-section" style="margin-top:1rem;display:none;overflow:hidden;max-height:0;transition:max-height 0.3s ease,opacity 0.3s ease;opacity:0">
+          <div style="font-size:var(--text-sm);font-weight:600;margin-bottom:0.5rem">What happened?</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem">
+            <button class="btn btn-full outcome-btn" style="background:var(--yellow-light);color:var(--yellow);font-weight:600" data-outcome="no_answer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              No Answer
+            </button>
+            <button class="btn btn-full outcome-btn" style="background:var(--red-light);color:var(--red);font-weight:600" data-outcome="not_interested">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              Not Interested
+            </button>
+            <button class="btn btn-full outcome-btn" style="background:var(--green-light);color:var(--green);font-weight:600" data-outcome="demo_agreed" id="demo-agreed-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Demo Agreed!
+            </button>
+          </div>
         </div>
-      </div>
-      <div id="demo-expand" style="margin-top:0.75rem;display:none">
-        <div class="card">
+        <div id="demo-expand" style="margin-top:1rem;display:none;overflow:hidden;max-height:0;transition:max-height 0.3s ease,opacity 0.3s ease;opacity:0">
           <div style="font-size:var(--text-md);font-weight:600;margin-bottom:1rem;color:var(--green)">Great call!</div>
           <div class="input-group">
             <label>Client email address *</label>
@@ -152,9 +150,24 @@ function renderHome(container) {
 
     const callBtn = el.querySelector('#call-btn');
     const outcomeSection = el.querySelector('#outcome-section');
+    const demoExpand = el.querySelector('#demo-expand');
+
+    function expandSection(section) {
+      section.style.display = 'block';
+      requestAnimationFrame(() => {
+        section.style.maxHeight = '400px';
+        section.style.opacity = '1';
+      });
+    }
+
+    function collapseSection(section) {
+      section.style.maxHeight = '0';
+      section.style.opacity = '0';
+      setTimeout(() => { section.style.display = 'none'; }, 300);
+    }
 
     callBtn.addEventListener('click', () => {
-      setTimeout(() => { outcomeSection.style.display = 'block'; outcomeSection.classList.add('anim-slide-up'); }, 500);
+      setTimeout(() => expandSection(outcomeSection), 500);
     });
 
     el.querySelectorAll('.outcome-btn:not(#demo-agreed-btn)').forEach(btn => {
@@ -162,9 +175,9 @@ function renderHome(container) {
     });
 
     el.querySelector('#demo-agreed-btn').addEventListener('click', () => {
-      outcomeSection.style.display = 'none';
-      el.querySelector('#demo-expand').style.display = 'block';
-      el.querySelector('#home-demo-email').focus();
+      collapseSection(outcomeSection);
+      setTimeout(() => expandSection(demoExpand), 300);
+      setTimeout(() => el.querySelector('#home-demo-email').focus(), 600);
     });
 
     el.querySelector('#home-demo-submit').addEventListener('click', () => handleDemoSubmit(lead));
