@@ -57,6 +57,9 @@ async def get_current_user(token: str = Depends(lambda: None)):
 
 @app.middleware("http")
 async def auth_middleware(request, call_next):
+    if request.method == "OPTIONS":
+        return await call_next(request)
+
     if request.url.path in ["/auth/login", "/docs", "/openapi.json", "/"]:
         return await call_next(request)
 
