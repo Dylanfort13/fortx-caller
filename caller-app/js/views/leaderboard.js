@@ -71,10 +71,6 @@ function renderLeaderboard(container) {
               <div style="font-size:var(--text-xs);color:var(--text-sub)">calls</div>
             </div>
             </div>
-            <div style="text-align:right">
-              <div style="font-size:var(--text-md);font-weight:600">$${(stats.potential_cad || 0).toLocaleString()}</div>
-              <div style="font-size:var(--text-xs);color:var(--text-sub)">CAD</div>
-            </div>
           </div>
         </div>
       `;
