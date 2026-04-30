@@ -2,7 +2,7 @@
   background: var(--surface);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: 1.5rem;
+  padding: 1.25rem;
   transition: box-shadow 0.2s ease;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .card + .card {
-  margin-top: 0.75rem;
+  margin-top: 0.625rem;
 }
 
 .btn {
@@ -33,7 +33,7 @@
 }
 
 .btn-primary:active {
-  background: #d45a08;
+  background: #1d4ed8;
   transform: scale(0.97);
 }
 

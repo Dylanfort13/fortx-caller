@@ -45,13 +45,18 @@ function renderProfile(container) {
         </div>
       </div>
 
-      <div style="margin-top:2rem">
+      <div style="margin-top:2rem;display:flex;flex-direction:column;gap:0.75rem">
+        <button class="btn btn-full btn-primary" id="switch-user-btn">Switch User</button>
         <button class="btn btn-full btn-danger" id="logout-btn" style="font-weight:500">Log out</button>
       </div>
     </div>
   `;
 
   document.getElementById('logout-btn').addEventListener('click', () => {
+    Auth.logout();
+  });
+
+  document.getElementById('switch-user-btn').addEventListener('click', () => {
     Auth.logout();
   });
 
