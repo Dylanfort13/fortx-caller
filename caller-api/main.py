@@ -189,7 +189,7 @@ def get_current_leads(request: Request):
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM leads
-               WHERE assigned_to = %s AND status IN ('assigned','no_answer','callback')
+               WHERE assigned_to = %s AND status = 'assigned'
                ORDER BY sheet_row""",
             (caller_id,),
         )

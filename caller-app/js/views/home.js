@@ -91,7 +91,7 @@ function renderHome(container) {
   }
 
   function renderNextCall() {
-    const remaining = leads.filter(l => l.status === 'assigned' || l.status === 'no_answer' || l.status === 'callback');
+    const remaining = leads.filter(l => l.status === 'assigned');
     const el = document.getElementById('home-next-call');
 
     if (remaining.length === 0) {
