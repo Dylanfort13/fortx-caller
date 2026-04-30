@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg:           #F9F9F9;
+  --surface:      #FFFFFF;
+  --border:       rgba(0, 0, 0, 0.06);
+  --text-primary: #1A1A1A;
+  --text-sub:     #6B7280;
+  --accent:       #E8650A;
+  --accent-light: #FFF3EB;
+  --green:        #16A34A;
+  --green-light:  #F0FDF4;
+  --red:          #DC2626;
+  --red-light:    #FEF2F2;
+  --yellow:       #D97706;
+  --yellow-light: #FFFBEB;
+  --radius-card:  16px;
+  --radius-btn:   12px;
+  --shadow-card:  0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(0,0,0,0.04);
+  --shadow-hover: 0 2px 8px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.12);
+  --text-xs:      10.5px;
+  --text-sm:      12px;
+  --text-base:    14px;
+  --text-md:      16px;
+  --text-lg:      20px;
+  --text-xl:      24px;
+  --text-2xl:     28px;
+  --text-3xl:     34px;
+  --nav-height:   64px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:active { opacity: 0.7; }
+
+input, button, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+button { cursor: pointer; -webkit-user-select: none; user-select: none; }
+
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  padding-bottom: calc(var(--nav-height) + 1.5rem);
+}
+
+.page-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.page-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+.section-header {
+  font-size: var(--text-md);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}

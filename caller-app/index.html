@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#E8650A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>FortX Caller</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; min-height:100dvh; }
+    .login-wrap { width:100%; max-width:360px; padding:2rem 1.5rem; text-align:center; }
+    .login-logo { font-size:var(--text-3xl); font-weight:700; color:var(--accent); letter-spacing:-1px; margin-bottom:0.25rem; }
+    .login-sub { font-size:var(--text-sm); color:var(--text-sub); margin-bottom:2rem; }
+    .caller-picker { display:flex; gap:0.75rem; margin-bottom:2rem; }
+    .caller-card {
+      flex:1; padding:1.25rem 0.75rem; border-radius:var(--radius-card); border:2px solid var(--border);
+      background:var(--surface); box-shadow:var(--shadow-card); cursor:pointer;
+      transition:all 0.2s ease; text-align:center;
+    }
+    .caller-card.selected { border-color:var(--accent); background:var(--accent-light); }
+    .caller-card:active { transform:scale(0.97); }
+    .caller-initial {
+      width:48px; height:48px; border-radius:50%; background:var(--bg); color:var(--text-primary);
+      display:flex; align-items:center; justify-content:center; font-size:var(--text-lg); font-weight:700;
+      margin:0 auto 0.5rem;
+    }
+    .caller-card.selected .caller-initial { background:var(--accent); color:white; }
+    .caller-name { font-size:var(--text-base); font-weight:600; }
+    .pin-section { margin-bottom:1.5rem; }
+    .pin-dots { display:flex; gap:0.75rem; justify-content:center; margin-bottom:1rem; }
+    .pin-dot {
+      width:14px; height:14px; border-radius:50%; border:2px solid var(--border);
+      transition:all 0.2s ease;
+    }
+    .pin-dot.filled { background:var(--accent); border-color:var(--accent); }
+    .keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; max-width:280px; margin:0 auto; }
+    .key {
+      width:100%; aspect-ratio:1.4; border-radius:var(--radius-btn); background:var(--surface);
+      box-shadow:var(--shadow-card); display:flex; align-items:center; justify-content:center;
+      font-size:var(--text-xl); font-weight:600; cursor:pointer; transition:all 0.15s ease;
+    }
+    .key:active { background:var(--bg); transform:scale(0.95); }
+    .key-back { font-size:var(--text-sm); color:var(--text-sub); }
+    .login-error { color:var(--red); font-size:var(--text-sm); margin-top:0.75rem; min-height:1.25rem; }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-logo">FortX</div>
+    <div class="login-sub">Caller App</div>
+
+    <div class="caller-picker" id="caller-picker">
+      <div class="caller-card" data-name="Jonathan">
+        <div class="caller-initial">J</div>
+        <div class="caller-name">Jonathan</div>
+      </div>
+      <div class="caller-card" data-name="Kevin">
+        <div class="caller-initial">K</div>
+        <div class="caller-name">Kevin</div>
+      </div>
+      <div class="caller-card" data-name="Dylan">
+        <div class="caller-initial">D</div>
+        <div class="caller-name">Dylan</div>
+      </div>
+    </div>
+
+    <div class="pin-section">
+      <div class="pin-dots" id="pin-dots">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+      </div>
+      <div class="keypad" id="keypad">
+        <button class="key" data-digit="1">1</button>
+        <button class="key" data-digit="2">2</button>
+        <button class="key" data-digit="3">3</button>
+        <button class="key" data-digit="4">4</button>
+        <button class="key" data-digit="5">5</button>
+        <button class="key" data-digit="6">6</button>
+        <button class="key" data-digit="7">7</button>
+        <button class="key" data-digit="8">8</button>
+        <button class="key" data-digit="9">9</button>
+        <button class="key key-back" data-action="back">←</button>
+        <button class="key" data-digit="0">0</button>
+        <button class="key key-back" data-action="clear">C</button>
+      </div>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/components/toast.js"></script>
+  <script>
+    Toast.init();
+
+    if (Auth.isLoggedIn()) {
+      window.location.href = 'app.html';
+    }
+
+    let selectedName = '';
+    let pin = '';
+
+    document.querySelectorAll('.caller-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.caller-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedName = card.dataset.name;
+        document.getElementById('login-error').textContent = '';
+      });
+    });
+
+    document.querySelectorAll('.key[data-digit]').forEach(key => {
+      key.addEventListener('click', () => {
+        if (pin.length >= 4) return;
+        pin += key.dataset.digit;
+        updatePinDots();
+        if (pin.length === 4) attemptLogin();
+      });
+    });
+
+    document.querySelectorAll('.key[data-action]').forEach(key => {
+      key.addEventListener('click', () => {
+        if (key.dataset.action === 'back') pin = pin.slice(0, -1);
+        if (key.dataset.action === 'clear') pin = '';
+        updatePinDots();
+      });
+    });
+
+    function updatePinDots() {
+      document.querySelectorAll('.pin-dot').forEach((dot, i) => {
+        dot.classList.toggle('filled', i < pin.length);
+      });
+    }
+
+    async function attemptLogin() {
+      if (!selectedName) {
+        document.getElementById('login-error').textContent = 'Select your name first';
+        pin = '';
+        updatePinDots();
+        return;
+      }
+      try {
+        await Auth.login(selectedName, pin);
+        window.location.href = 'app.html';
+      } catch (e) {
+        document.getElementById('login-error').textContent = e.message || 'Invalid PIN';
+        pin = '';
+        updatePinDots();
+      }
+    }
+  </script>
+</body>
+</html>

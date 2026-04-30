@@ -1,0 +1,77 @@
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-12px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flipIn {
+  from { transform: rotateX(90deg); opacity: 0; }
+  to { transform: rotateX(0deg); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes confettiDrop {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(120px) rotate(720deg); opacity: 0; }
+}
+
+.anim-fade-in {
+  animation: fadeIn 0.25s ease;
+}
+
+.anim-slide-up {
+  animation: slideUp 0.3s ease;
+}
+
+.anim-flip-in {
+  animation: flipIn 0.4s ease;
+  perspective: 600px;
+}
+
+.anim-pulse {
+  animation: pulse 0.3s ease;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg) 25%, #efefef 50%, var(--bg) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease infinite;
+  border-radius: 6px;
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 300;
+  animation: confettiDrop 1.2s ease-out forwards;
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
