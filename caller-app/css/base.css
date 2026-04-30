@@ -105,7 +105,6 @@ button { cursor: pointer; -webkit-user-select: none; user-select: none; }
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .skeleton {

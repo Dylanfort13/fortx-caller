@@ -44,12 +44,12 @@ function renderEarnings(container) {
         <div class="card anim-slide-up" style="border-top:3px solid var(--green)">
           <div style="font-size:var(--text-xs);color:var(--text-sub);margin-bottom:0.5rem">Daily Potential</div>
           <div style="font-size:var(--text-xl);font-weight:700;color:var(--green)">$${potentialTotal.toLocaleString()}</div>
-          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:auto;padding-top:0.25rem">CAD</div>
+          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:0.25rem">CAD</div>
         </div>
         <div class="card anim-slide-up" style="animation-delay:0.05s;border-top:3px solid var(--yellow)">
           <div style="font-size:var(--text-xs);color:var(--text-sub);margin-bottom:0.5rem">Upcoming Payout</div>
           <div style="font-size:var(--text-xl);font-weight:700;color:var(--yellow)">$${pendingTotal.toLocaleString()}</div>
-          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:auto;padding-top:0.25rem">CAD</div>
+          <div style="font-size:var(--text-xs);color:var(--text-sub);margin-top:0.25rem">CAD</div>
         </div>
       </div>
 
