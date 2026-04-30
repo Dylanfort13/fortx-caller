@@ -62,10 +62,14 @@ function renderLeaderboard(container) {
             <div style="flex:1">
               <div style="font-size:var(--text-md);font-weight:600">${c.name} ${isMe ? '(You)' : ''}</div>
               <div style="font-size:var(--text-sm);color:var(--text-sub);display:flex;gap:1rem;margin-top:2px">
-                <span>${stats.calls || 0} calls</span>
                 <span>${stats.demos || 0} demos</span>
                 ${c.streak > 0 ? `<span style="display:inline-flex;align-items:center;gap:2px"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--yellow)" stroke="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>${c.streak}</span>` : ''}
               </div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:var(--text-xl);font-weight:700">${stats.calls || 0}</div>
+              <div style="font-size:var(--text-xs);color:var(--text-sub)">calls</div>
+            </div>
             </div>
             <div style="text-align:right">
               <div style="font-size:var(--text-md);font-weight:600">$${(stats.potential_cad || 0).toLocaleString()}</div>
