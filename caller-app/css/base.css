@@ -101,6 +101,9 @@ button { cursor: pointer; -webkit-user-select: none; user-select: none; }
 
 .stat-box {
   padding: 1rem;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
 }
 
 .script-line {

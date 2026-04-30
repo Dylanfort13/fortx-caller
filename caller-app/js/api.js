@@ -35,5 +35,6 @@ const API = (() => {
     adminGetCallers: () => get('/admin/callers'),
     adminAddCaller: (data) => post('/admin/callers', data),
     adminPatchCommission: (id, data) => patch(`/admin/commissions/${id}`, data),
+    chatWithKitter: (messages) => post('/chat', { messages }),
   };
 })();

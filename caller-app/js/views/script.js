@@ -7,65 +7,105 @@ function renderScript(container) {
 
     <div style="margin-top:1.25rem">
       <div class="card anim-slide-up" style="border-left:4px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+        <div class="script-step">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-          <span style="font-weight:600;color:var(--accent)">OPENING</span>
+          <span style="font-weight:600;color:var(--accent)">STEP 1 — Opening</span>
         </div>
-        <div class="script-line">
-          "Bonjour est-ce que je suis bien chez <strong>[entreprise]</strong> ?"
-        </div>
+        <div class="script-line">"Hi, am I speaking with <strong>[business name]</strong>?"</div>
       </div>
 
       <div class="card anim-slide-up" style="animation-delay:0.05s;border-left:4px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+        <div class="script-step">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span style="font-weight:600;color:var(--accent)">INTRODUCE YOURSELF</span>
+          <span style="font-weight:600;color:var(--accent)">STEP 2 — Introduce yourself</span>
         </div>
-        <div class="script-line">
-          "Ok good parfait, Mon nom c'est <strong>[ton nom]</strong>, c'est moi qui s'occupe de faire les site web ici a <strong>[ville]</strong>,"
-        </div>
+        <div class="script-line">"Great! My name is <strong>[your name]</strong>, I handle the websites here in <strong>[city]</strong>."</div>
       </div>
 
       <div class="card anim-slide-up" style="animation-delay:0.1s;border-left:4px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+        <div class="script-step">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span style="font-weight:600;color:var(--accent)">THE HOOK</span>
+          <span style="font-weight:600;color:var(--accent)">STEP 3 — The Hook</span>
         </div>
-        <div class="script-line">
-          "J'vous appel parce que on vient de finir votre site web."
-        </div>
+        <div class="script-line">"I'm calling because we just finished your website."</div>
       </div>
 
       <div class="card anim-slide-up" style="animation-delay:0.15s;border-left:4px solid var(--yellow)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+        <div class="script-step">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <span style="font-weight:600;color:var(--yellow)">IF THEY ASK "Mon site web?"</span>
+          <span style="font-weight:600;color:var(--yellow)">If they say "My website?"</span>
         </div>
-        <div class="script-line">
-          "En fait, c'est une demo qu'on vous a fait totalement gratuitement, pour que vous puissiez voir de quoi ca a l'air. Puis evidemment si ca vous plait puis que vous voulez que l'on termine le site web, on va pouvoir vous aider avec ca."
-        </div>
+        <div class="script-line">"It's a demo we built completely for free, so you can see what it would look like. Obviously if you like it and want us to finalize it, we can help with that."</div>
       </div>
 
       <div class="card anim-slide-up" style="animation-delay:0.2s;border-left:4px solid var(--green)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+        <div class="script-step">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span style="font-weight:600;color:var(--green)">THE ASK — Get their email</span>
+          <span style="font-weight:600;color:var(--green)">STEP 4 — Get their email</span>
         </div>
-        <div class="script-line">
-          "Mais ouais, est-ce ca vous derange si je vous l'envoie votre demo par courriel ?"
-        </div>
+        <div class="script-line">"Would it bother you if I send you the demo by email?"</div>
       </div>
 
       <div class="card anim-slide-up" style="animation-delay:0.25s;border-left:4px solid var(--green);background:var(--green-light)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+        <div class="script-step">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          <span style="font-weight:600;color:var(--green)">GET THEIR NAME — End of call</span>
+          <span style="font-weight:600;color:var(--green)">STEP 5 — Get their name</span>
         </div>
-        <div class="script-line" style="font-size:var(--text-base)">
-          "Au fait, quel nom je devrais mettre dans le courriel ?"
-        </div>
+        <div class="script-line">"By the way, what name should I put in the email?"</div>
         <div style="margin-top:0.75rem;padding:0.75rem;background:var(--surface);border-radius:var(--radius-btn);font-size:var(--text-sm);color:var(--text-sub)">
-          This is where you get both the <strong style="color:var(--green)">email address</strong> and the <strong style="color:var(--green)">contact name</strong> you'll need to fill in the Demo Agreed form.
+          This is where you get the <strong style="color:var(--green)">contact name</strong> and <strong style="color:var(--green)">email address</strong> you need for the Demo Agreed form.
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;margin-bottom:0.75rem">
+        <span style="font-size:var(--text-md);font-weight:700">Common Questions</span>
+      </div>
+
+      <div class="card anim-slide-up" style="animation-delay:0.3s">
+        <div class="script-objection">
+          <div class="script-objection-q">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            "How much is it?"
+          </div>
+          <div class="script-objection-a">
+            "It's around <strong>$200 to set up</strong> the website. Then it's only <strong>$50 per month</strong> for the hosting and domain name. Honestly, most of our clients make that back from the very first client they get through the site."
+          </div>
+        </div>
+      </div>
+
+      <div class="card anim-slide-up" style="animation-delay:0.35s">
+        <div class="script-objection">
+          <div class="script-objection-q">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            "Who are you? Where are you calling from?"
+          </div>
+          <div class="script-objection-a">
+            "We're <strong>FortX Web</strong> — we've been building websites for contractors for over 10 years now. We're based in Canada and we're currently expanding down into the US. We specialize in websites for businesses like yours."
+          </div>
+        </div>
+      </div>
+
+      <div class="card anim-slide-up" style="animation-delay:0.4s">
+        <div class="script-objection">
+          <div class="script-objection-q">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            "I already have a website"
+          </div>
+          <div class="script-objection-a">
+            "That's great! Honestly, a lot of our clients had websites before too — but they were paying way too much for something that wasn't bringing in any new clients. Let me send you a demo so you can compare. No pressure at all."
+          </div>
+        </div>
+      </div>
+
+      <div class="card anim-slide-up" style="animation-delay:0.45s">
+        <div class="script-objection">
+          <div class="script-objection-q">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            "I'm not interested"
+          </div>
+          <div class="script-objection-a">
+            "Totally understand. But here's the thing — it's completely free to look at. If you hate it, you never hear from us again. But most people are actually impressed when they see what we built for them. Can I just send it over?"
+          </div>
         </div>
       </div>
     </div>

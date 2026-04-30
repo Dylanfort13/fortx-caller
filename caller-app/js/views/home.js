@@ -99,7 +99,7 @@ function renderHome(container) {
     el.innerHTML = `
       <div class="card anim-slide-up" style="animation-delay:0.15s" id="next-call-card">
         <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><polyline points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <span class="live-dot"></span>
           <span style="font-size:var(--text-sm);font-weight:600;color:var(--accent)">NEXT CALL</span>
           <span style="font-size:var(--text-xs);color:var(--text-sub);margin-left:auto">${remaining.length} remaining</span>
         </div>
@@ -107,7 +107,7 @@ function renderHome(container) {
         <div style="font-size:var(--text-sm);color:var(--text-sub);margin-top:2px">${[lead.city, lead.state].filter(Boolean).join(', ')}</div>
         ${lead.category ? `<span class="pill" style="margin-top:6px;background:var(--accent-light);color:var(--accent)">${lead.category}</span>` : ''}
         <div style="margin-top:1rem">
-          <a href="tel:${lead.phone}" class="btn btn-primary btn-full" id="call-btn" style="text-decoration:none">
+          <a href="tel:${lead.phone}" class="call-btn-glow" id="call-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
             Call ${lead.phone}
           </a>

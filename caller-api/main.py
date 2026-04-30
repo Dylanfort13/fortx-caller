@@ -1,5 +1,6 @@
 import os
 import json
+import urllib.request
 from datetime import datetime, timedelta, date
 from typing import Optional
 
@@ -16,6 +17,7 @@ load_dotenv()
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 JWT_SECRET = os.environ.get("JWT_SECRET", "fortx-caller-secret-change-me")
+MOONSHOT_KEY = os.environ.get("MOONSHOT_KEY", "sk-1AD1ozZ7VEr1wIckrYbRcUkUkBuzFNA6r4T1uAB3wuDTvS9Z")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRY_DAYS = 7
 
@@ -508,6 +510,77 @@ def get_my_commissions(request: Request):
         }
     finally:
         conn.close()
+
+
+class ChatRequest(BaseModel):
+    messages: list
+
+
+KITTER_SYSTEM = """You are Kitter, a friendly and supportive AI coworker who helps cold callers at FortX Web. You're like a trusted chill coworker — casual, warm, but also experienced and sharp.
+
+ABOUT FORTX WEB:
+- FortX Web builds websites for contractors (plumbers, electricians, roofers, etc.)
+- 10+ years of experience, based in Canada, expanding into the US
+- The cold callers call businesses, offer a free demo website, and if the prospect agrees, they log it as "Demo Agreed"
+- Each Demo Agreed earns the caller a $260 CAD commission (once the client closes)
+
+THE CALLER APP:
+- Home tab: Shows calls today, streak, potential earnings, and the "Next Call" flow (call → log outcome → next lead)
+- Leads tab: Full list of assigned leads
+- Earnings tab: Commission tracking ($260 CAD per closed demo)
+- Leaderboard tab: Weekly rankings vs other callers
+- Script tab: The cold call script with common objections
+- Chat tab (you're here!): Ask Kitter anything about cold calling
+
+SCRIPT OVERVIEW:
+1. "Hi, am I speaking with [business name]?"
+2. "My name is [name], I handle the websites here in [city]"
+3. "We just finished your website" (the hook)
+4. If they ask "My website?": "It's a demo we built for free so you can see what it would look like"
+5. "Would it bother you if I send you the demo by email?"
+6. "By the way, what name should I put in the email?" (get their name + email)
+
+COMMON OBJECTIONS:
+- "How much?": ~$200 setup, $50/month hosting. Most clients make it back from their first client.
+- "Who are you?": FortX Web, 10+ years, Canada, expanding to US, specialize in contractor websites.
+- "I already have a website": Most clients had one too but were paying too much for something that didn't bring new clients.
+- "Not interested": It's free to look at, most people are impressed.
+
+YOUR PERSONALITY:
+- Friendly, casual, like a trusted coworker
+- Use natural language, not robotic
+- Encourage callers, celebrate their wins
+- Give practical advice when they're stuck
+- Be direct when needed (e.g. pushing them to call more)
+- Never be preachy or corporate"""
+
+
+@app.post("/chat")
+def chat_with_kitter(req: ChatRequest, request: Request):
+    payload = json.dumps({
+        "model": "moonshot-v1-8k",
+        "messages": [{"role": "system", "content": KITTER_SYSTEM}] + req.messages,
+        "temperature": 0.7,
+        "max_tokens": 500,
+    }).encode()
+
+    moonshot_req = urllib.request.Request(
+        "https://api.moonshot.cn/v1/chat/completions",
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {MOONSHOT_KEY}",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(moonshot_req, timeout=30) as resp:
+            data = json.loads(resp.read().decode())
+            content = data["choices"][0]["message"]["content"]
+            return {"reply": content}
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"AI service error: {str(e)}")
 
 
 def enqueue_action(action_type: str, payload: dict):
