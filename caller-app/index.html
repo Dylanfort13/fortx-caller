@@ -88,7 +88,7 @@
         <button class="key" data-digit="9">9</button>
         <button class="key key-back" data-action="back">←</button>
         <button class="key" data-digit="0">0</button>
-        <button class="key key-back" data-action="clear">C</button>
+        <button class="key key-back" data-action="submit">↵</button>
       </div>
       <div class="login-error" id="login-error"></div>
     </div>
@@ -130,7 +130,7 @@
     document.querySelectorAll('.key[data-action]').forEach(key => {
       key.addEventListener('click', () => {
         if (key.dataset.action === 'back') pin = pin.slice(0, -1);
-        if (key.dataset.action === 'clear') pin = '';
+        if (key.dataset.action === 'submit' && pin.length === 4) attemptLogin();
         updatePinDots();
       });
     });
