@@ -12,7 +12,7 @@ function renderChat(container) {
       <div class="page-subtitle">Your AI calling coach</div>
     </div>
     <div id="chat-messages" style="margin-top:1rem;display:flex;flex-direction:column;gap:0.75rem;padding-bottom:140px"></div>
-    <div class="chat-input-bar" id="chat-input-bar">
+    <div class="chat-input-bar" id="chat-input-bar" style="display:none">
       <input type="text" class="chat-input" id="chat-input" placeholder="Ask Kitter anything..." autocomplete="off">
       <button class="chat-send-btn" id="chat-send-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -30,6 +30,8 @@ function renderChat(container) {
 
   if (!isOnboarded) {
     startOnboarding();
+  } else {
+    document.getElementById('chat-input-bar').style.display = 'flex';
   }
 
   sendBtn.addEventListener('click', handleSend);
@@ -138,17 +140,19 @@ function renderChat(container) {
 
 Here's a quick tour of the app:
 
-**Home** — Your command center. See your calls today, streak, earnings potential, and your next lead to call. Just tap "Call" and the phone opens. When you come back, tell me what happened.
+HOME — Your command center. See your calls today, streak, earnings potential, and your next lead to call. Just tap "Call" and the phone opens. When you come back, tell me what happened.
 
-**Leads** — All your assigned leads in one list.
+LEADS — All your assigned leads in one list.
 
-**Earnings** — Track your commissions. Every Demo Agreed = $260 CAD.
+EARNINGS — Track your commissions. Every Demo Agreed = $260 CAD.
 
-**Leaderboard** — See how you stack up against the other callers this week.
+LEADERBOARD — See how you stack up against the other callers this week.
 
-**Script** — The full cold call script with common objections and how to handle them.
+SCRIPT — The full cold call script with common objections and how to handle them.
 
-**Chat** (you're here!) — Ask me anything. Stuck on a call? Not sure what to say? I got you.`;
+CHAT (you're here!) — Ask me anything. Stuck on a call? Not sure what to say? I got you.
+
+Click "Let's get started" below to set up your day!`;
 
       addKitterMessage(welcome);
 
@@ -244,6 +248,7 @@ Here's a quick tour of the app:
     localStorage.setItem(ONBOARD_KEY, 'done');
     onboardingStep = 0;
     saveMessages();
+    document.getElementById('chat-input-bar').style.display = 'flex';
   }
 
   function addKitterMessage(text) {
