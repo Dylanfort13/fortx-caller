@@ -479,7 +479,18 @@ def get_today_goal(request: Request):
             "SELECT * FROM daily_goals WHERE caller_id = %s AND goal_date = CURRENT_DATE",
             (caller_id,),
         )
-        return cur.fetchone() or {"target_calls": 30, "calls_made": 0}
+        goal = cur.fetchone()
+
+        cur.execute(
+            "SELECT COUNT(*) AS cnt FROM call_logs WHERE caller_id = %s AND called_at::date = CURRENT_DATE",
+            (caller_id,),
+        )
+        actual_calls = cur.fetchone()["cnt"]
+
+        if goal:
+            goal["calls_made"] = actual_calls
+            return goal
+        return {"target_calls": 30, "calls_made": actual_calls}
     finally:
         conn.close()
 
