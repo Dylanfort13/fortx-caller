@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fortx-caller-v1';
+const CACHE_NAME = 'fortx-caller-v2';
 const BASE = self.location.pathname.replace(/sw\.js$/, '');
 
 const SHELL_FILES = [
