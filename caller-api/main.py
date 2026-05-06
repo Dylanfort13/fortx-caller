@@ -59,7 +59,7 @@ async def auth_middleware(request, call_next):
     if request.method == "OPTIONS":
         return await call_next(request)
 
-    if request.url.path in ["/auth/login", "/docs", "/openapi.json", "/"]:
+    if request.url.path in ["/auth/login", "/callers/names", "/docs", "/openapi.json", "/"]:
         return await call_next(request)
 
     auth = request.headers.get("Authorization", "")
