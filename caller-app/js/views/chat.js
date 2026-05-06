@@ -167,9 +167,8 @@ Click "Let's get started" below to set up your day!`;
   function onboardingGoalStep() {
     addKitterMessage("First things first — let's set your daily call goal. How many calls do you want to make per day?");
     showQuickReplies([
-      { label: '10 calls' },
-      { label: '30 calls' },
       { label: '50 calls' },
+      { label: '70 calls' },
       { label: '100 calls' },
     ]);
     onboardingStep = 1;
@@ -213,64 +212,49 @@ Click "Let's get started" below to set up your day!`;
     const num = parseInt(text.replace(/[^0-9]/g, ''));
     if (!isNaN(num) && num > 0) return num;
     if (/stick|stay|keep|same|fine|ok|sure/i.test(text) && goalPushCount > 0) return 0;
-    return 30;
+    return 50;
   }
 
   async function handleGoalSetting(num, rawText) {
     goalPushCount++;
 
-    if (num < 10 && goalPushCount === 1) {
-      addKitterMessage(`${num}? Come on ${caller.name}, that's barely warming up! You'd spend more time scrolling your phone between calls than actually calling. Even 30 calls takes less than 2 hours — and that could land you a $260 demo. Let's aim higher — you'll thank yourself when the commissions roll in. What do you say?`);
+    if (num < 50 && goalPushCount === 1) {
+      addKitterMessage(`${num} calls? You've got more in you than that! 50 is the sweet spot — enough volume to land demos consistently without burning out. But if you're feeling ambitious, 70 is where the real money's at. What do you say?`);
       showQuickReplies([
-        { label: 'Fine, 30 calls' },
         { label: '50 calls' },
-        { label: `No, I'm sticking with ${num}` },
-      ]);
-      return;
-    }
-
-    if (num < 10 && goalPushCount >= 2) {
-      addKitterMessage(`Look, I get it — ${num} calls feels comfortable. But hear me out: 30 calls takes about 90 minutes. That's it. And statistically, every 30 calls gets you roughly 1 demo agreed. That's $260 for 90 minutes of work. With ${num} calls? You're looking at maybe 15 minutes of calling and $0 guaranteed. You could literally TRIPLE your earnings just by spending one more hour on the phone. Is ${num} really worth leaving that money on the table?`);
-      showQuickReplies([
-        { label: 'Ok fine, 30 calls' },
-        { label: '50 calls' },
-        { label: `I'm doing ${num}, period` },
-      ]);
-      return;
-    }
-
-    if (num >= 10 && num < 30 && goalPushCount === 1) {
-      addKitterMessage(`${num} calls? You can definitely do more than that. Here's the thing — cold calling is a numbers game. The more calls you make, the more demos you get, and demos = $260 each. Even bumping to 30 gives you a way better shot at landing one. What do you say?`);
-      showQuickReplies([
-        { label: 'Ok, 30 calls' },
-        { label: '50 calls' },
+        { label: '70 calls' },
         { label: `I'll stick with ${num}` },
       ]);
       return;
     }
 
-    if (num >= 10 && num < 30 && goalPushCount >= 2) {
-      addKitterMessage(`Alright ${caller.name}, I respect the choice. But just so you know — ${num} calls is about ${Math.round(num * 3)} minutes on the phone. Going to 30 would only add ${Math.round((30 - num) * 3)} more minutes, but could be the difference between $0 and $260 today. Your call!`);
-      showQuickReplies([
-        { label: 'Actually, 30 calls' },
-        { label: `Let's go with ${num}` },
-      ]);
+    if (num < 50 && goalPushCount >= 2) {
+      addKitterMessage(`Alright ${caller.name}, ${num} it is. You can always bump it up later from the Home tab!`);
+      await finalizeGoal(num || 50);
       return;
     }
 
     if (num === 0) {
-      const fallback = [10, 30][Math.min(goalPushCount - 1, 1)];
-      await finalizeGoal(fallback);
+      await finalizeGoal(50);
       return;
     }
 
-    if (num >= 30 && num < 50) {
-      addKitterMessage(`${num} calls — solid! That's a good baseline. But honestly? 50+ is where the magic happens. More calls = more demos = more money. If you're really motivated to make bank, 100 is the dream. But ${num} is a great start!`);
+    if (num >= 50 && num < 70 && goalPushCount === 1) {
+      addKitterMessage(`${num} calls — nice! Just so you know, bumping to 70 gives you way more chances to land a demo each day. More swings = more hits. Want to go for 70?`);
+      showQuickReplies([
+        { label: 'Yeah, 70 calls!' },
+        { label: `${num} is good` },
+      ]);
+      return;
+    }
+
+    if (num >= 50 && num < 70 && goalPushCount >= 2) {
+      addKitterMessage(`${num} calls it is! Let's get it set up.`);
       await finalizeGoal(num);
       return;
     }
 
-    if (num >= 50 && num < 100) {
+    if (num >= 70 && num < 100) {
       addKitterMessage(`${num} calls! Now we're talking. That's how you make real money. Let's set it up!`);
       await finalizeGoal(num);
       return;
@@ -282,7 +266,7 @@ Click "Let's get started" below to set up your day!`;
       return;
     }
 
-    await finalizeGoal(num || 30);
+    await finalizeGoal(num || 50);
   }
 
   async function finalizeGoal(num) {

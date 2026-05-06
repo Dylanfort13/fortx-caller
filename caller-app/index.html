@@ -54,20 +54,7 @@
     <div class="login-logo">FortX</div>
     <div class="login-sub">Caller App</div>
 
-    <div class="caller-picker" id="caller-picker">
-      <div class="caller-card" data-name="Jonathan">
-        <div class="caller-initial">J</div>
-        <div class="caller-name">Jonathan</div>
-      </div>
-      <div class="caller-card" data-name="Kevin">
-        <div class="caller-initial">K</div>
-        <div class="caller-name">Kevin</div>
-      </div>
-      <div class="caller-card" data-name="Dylan">
-        <div class="caller-initial">D</div>
-        <div class="caller-name">Dylan</div>
-      </div>
-    </div>
+    <div class="caller-picker" id="caller-picker"></div>
 
     <div class="pin-section">
       <div class="pin-dots" id="pin-dots">
@@ -109,14 +96,31 @@
     let selectedName = '';
     let pin = '';
 
-    document.querySelectorAll('.caller-card').forEach(card => {
-      card.addEventListener('click', () => {
-        document.querySelectorAll('.caller-card').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        selectedName = card.dataset.name;
-        document.getElementById('login-error').textContent = '';
-      });
-    });
+    async function loadCallers() {
+      try {
+        const res = await fetch(CONFIG.API_BASE + '/callers/names');
+        if (!res.ok) throw new Error();
+        const callers = await res.json();
+        const picker = document.getElementById('caller-picker');
+        picker.innerHTML = callers.map(c => `
+          <div class="caller-card" data-name="${c.name}">
+            <div class="caller-initial">${c.name[0]}</div>
+            <div class="caller-name">${c.name}</div>
+          </div>
+        `).join('');
+        picker.querySelectorAll('.caller-card').forEach(card => {
+          card.addEventListener('click', () => {
+            picker.querySelectorAll('.caller-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedName = card.dataset.name;
+            document.getElementById('login-error').textContent = '';
+          });
+        });
+      } catch (e) {
+        document.getElementById('caller-picker').innerHTML = '<div style="color:var(--text-sub);font-size:var(--text-sm)">Could not load callers</div>';
+      }
+    }
+    loadCallers();
 
     document.querySelectorAll('.key[data-digit]').forEach(key => {
       key.addEventListener('click', () => {
@@ -141,17 +145,22 @@
       });
     }
 
+    let loggingIn = false;
+
     async function attemptLogin() {
+      if (loggingIn) return;
       if (!selectedName) {
         document.getElementById('login-error').textContent = 'Select your name first';
         pin = '';
         updatePinDots();
         return;
       }
+      loggingIn = true;
       try {
         await Auth.login(selectedName, pin);
         window.location.href = 'app.html';
       } catch (e) {
+        loggingIn = false;
         document.getElementById('login-error').textContent = e.message || 'Invalid PIN';
         pin = '';
         updatePinDots();

@@ -686,6 +686,17 @@ def complete_action(action_id: int, request: Request):
         conn.close()
 
 
+@app.get("/callers/names")
+def get_caller_names():
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT id, name, role FROM callers ORDER BY id")
+        return cur.fetchall()
+    finally:
+        conn.close()
+
+
 @app.get("/admin/callers")
 def admin_get_callers(request: Request):
     require_admin(request)
