@@ -189,8 +189,8 @@ def get_current_leads(request: Request):
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM leads
-               WHERE assigned_to = %s AND status = 'assigned'
-               ORDER BY sheet_row""",
+               WHERE assigned_to = %s AND status IN ('assigned', 'no_answer', 'callback')
+               ORDER BY CASE status WHEN 'assigned' THEN 0 ELSE 1 END, sheet_row""",
             (caller_id,),
         )
         return cur.fetchall()
@@ -538,10 +538,10 @@ IMPORTANT STYLE RULES:
 
 ABOUT FORTX WEB:
 - FortX Web builds websites for contractors (plumbers, electricians, roofers, landscapers, handymen, etc.)
-- 10+ years of experience, based in Canada, now expanding into the US (Idaho, Vermont)
-- The cold callers call small businesses, offer a free demo website, and if the prospect agrees, they log it as "Demo Agreed"
+- 10+ years of experience, based in Quebec, Canada
+- The cold callers call small businesses in Quebec, offer a free demo website, and if the prospect agrees, they log it as "Demo Agreed"
 - Each Demo Agreed earns the caller a $260 CAD commission (paid once the client closes)
-- The current callers are Jonathan, Kevin, and Dylan (Dylan is also the admin/owner)
+- Dylan is the current caller (also admin/owner)
 
 THE CALLER APP:
 - Home tab: Shows calls today, streak, potential earnings, and the "Next Call" flow (call -> log outcome -> next lead)

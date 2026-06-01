@@ -132,6 +132,10 @@ function renderHome(container) {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
               No Answer
             </button>
+            <button class="btn btn-full outcome-btn" style="background:var(--blue-light);color:var(--accent);font-weight:600" data-outcome="callback">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              Callback
+            </button>
             <button class="btn btn-full outcome-btn" style="background:var(--red-light);color:var(--red);font-weight:600" data-outcome="not_interested">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
               Not Interested
@@ -214,8 +218,8 @@ function renderHome(container) {
   async function handleOutcome(outcome, lead) {
     try {
       await API.logCall({ lead_id: lead.id, outcome });
-      Toast.show(outcome === 'no_answer' ? 'No answer logged' : 'Not interested logged', 'success');
-      animateTransition();
+      Toast.show(outcome === 'no_answer' ? 'No answer logged' : outcome === 'callback' ? 'Callback logged' : 'Not interested logged', 'success');
+      animateTransition(outcome);
     } catch {
       Toast.show('Failed to log call', 'error');
     }
@@ -240,7 +244,7 @@ function renderHome(container) {
       launchConfetti();
       animatePotentialIncrease(260);
       Toast.show('Pipeline started! FortX Web team is on it.', 'success');
-      animateTransition();
+      animateTransition('demo_agreed');
     } catch {
       Toast.show('Failed to start pipeline', 'error');
     }
@@ -257,14 +261,18 @@ function renderHome(container) {
     setTimeout(() => { el.style.color = ''; }, 1000);
   }
 
-  function animateTransition() {
+  function animateTransition(newStatus) {
     const card = document.getElementById('next-call-card');
-    const outcome = document.getElementById('outcome-section');
+    const outcomeEl = document.getElementById('outcome-section');
     const demoExpand = document.getElementById('demo-expand');
     if (card) { card.style.transition = 'opacity 0.3s ease, transform 0.3s ease'; card.style.opacity = '0'; card.style.transform = 'translateX(-30px)'; }
-    if (outcome) outcome.style.display = 'none';
+    if (outcomeEl) outcomeEl.style.display = 'none';
     if (demoExpand) demoExpand.style.display = 'none';
-    setTimeout(() => { leads.shift(); renderNextCall(); }, 350);
+    setTimeout(() => {
+      const lead = leads.find(l => l.status === 'assigned');
+      if (lead && newStatus) lead.status = newStatus;
+      renderNextCall();
+    }, 350);
   }
 
   async function requestLeads() {

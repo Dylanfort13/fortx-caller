@@ -12,8 +12,11 @@ function showOutcomeModal(lead, onOutcome) {
       <div style="font-size:var(--text-sm);color:var(--text-sub);margin-bottom:1.5rem">${[lead.city, lead.state].filter(Boolean).join(', ')}</div>
       ${lead.phone ? `<a href="tel:${lead.phone}" style="display:block;font-size:var(--text-xl);font-weight:600;color:var(--accent);margin-bottom:1rem">${lead.phone}</a>` : ''}
       <div style="display:flex;flex-direction:column;gap:0.75rem">
-        <button class="btn btn-full" style="background:var(--bg);color:var(--text-sub)" data-outcome="no_answer">
+        <button class="btn btn-full" style="background:var(--yellow-light);color:var(--yellow);font-weight:600" data-outcome="no_answer">
           No Answer
+        </button>
+        <button class="btn btn-full" style="background:var(--accent-light);color:var(--accent);font-weight:600" data-outcome="callback">
+          Callback
         </button>
         <button class="btn btn-full btn-danger" data-outcome="not_interested">
           Not Interested

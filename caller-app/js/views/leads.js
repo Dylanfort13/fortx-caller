@@ -44,19 +44,24 @@ function renderLeads(container) {
       return;
     }
 
-    const uncalled = leads.filter(l => !['demo_agreed', 'closed'].includes(l.status)).length;
-    countEl.textContent = `${leads.length} leads — ${uncalled} remaining`;
+    const uncalled = leads.filter(l => l.status === 'assigned').length;
+    const called = leads.filter(l => ['no_answer', 'callback', 'not_interested'].includes(l.status)).length;
+    countEl.textContent = `${leads.length} leads — ${uncalled} to call, ${called} called`;
 
     el.innerHTML = '';
-    leads.forEach((lead) => {
+    const sorted = [...leads].sort((a, b) => {
+      const order = { assigned: 0, callback: 1, no_answer: 2, not_interested: 3, demo_agreed: 4, closed: 5 };
+      return (order[a.status] ?? 9) - (order[b.status] ?? 9);
+    });
+    sorted.forEach((lead) => {
       const card = renderLeadCard(lead, onLeadTap);
       el.appendChild(card);
     });
   }
 
   function onLeadTap(lead) {
-    if (lead.status === 'demo_agreed' || lead.status === 'closed') {
-      Toast.show('This lead is already in the pipeline', 'success');
+    if (lead.status === 'demo_agreed' || lead.status === 'closed' || lead.status === 'not_interested') {
+      Toast.show('This lead is already closed', 'success');
       return;
     }
     currentLead = lead;
@@ -74,7 +79,7 @@ function renderLeads(container) {
         lead_id: lead.id,
         outcome: outcome,
       });
-      lead.status = outcome === 'no_answer' ? 'no_answer' : 'not_interested';
+      lead.status = outcome;
       renderList();
       Toast.show('Call logged', 'success');
     } catch {
